@@ -178,11 +178,6 @@ print(len(oPossSet))
 
 """
 
-""" It will take O(n) worst case because the unsortedness means a word could be anywhere in the dictionary
-A human would take forever to look up a word in a random dictionary because we have an intuitive notion of how to look 
-through a sorted list of things
-If it was sorted it would take probably some log time because we know how alphabetical sorting works"""
-
 """Day 5
 class Computer:
 
