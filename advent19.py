@@ -191,19 +191,19 @@ class Computer:
         self.index = 0
         self.firstInput = inp
 
-    def printinstruction(self, dex, oginstruction, struct, param1, param2, param3):
-
-        if struct == 99:
-            print('halt')
-            return
-
-        id = {1: 'add', 2: 'mult', 3: 'write', 4: 'print'}
-        print("original instruction: ", oginstruction,"at index: {}".format(dex))
-
-        if struct not in [3, 4]:
-            print("Tape[{}]: {} {} Tape[{}]: {} to Tape[{}]".format(param1, self.tape[param1], id[struct], param2, self.tape[param2], param3))
-        else:
-            print("{} Tape[{}]".format(id[struct], param1))
+    # def printinstruction(self, dex, oginstruction, struct, param1, param2, param3):
+    # 
+    #     if struct == 99:
+    #         print('halt')
+    #         return
+    # 
+    #     id = {1: 'add', 2: 'mult', 3: 'write', 4: 'print'}
+    #     print("original instruction: ", oginstruction,"at index: {}".format(dex))
+    # 
+    #     if struct not in [3, 4]:
+    #         print("Tape[{}]: {} {} Tape[{}]: {} to Tape[{}]".format(param1, self.tape[param1], id[struct], param2, self.tape[param2], param3))
+    #     else:
+    #         print("{} Tape[{}]".format(id[struct], param1))
 
     def intcodecomp(self, dex, input):
         struct, param1, param2, param3 = self.paramparse(self.tape[dex])
