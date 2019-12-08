@@ -1,5 +1,10 @@
 
 import re
+from copy import copy
+from collections import defaultdict
+from itertools import permutations
+
+from Computer import Computer
 
 """ day one
 def calc(load):
@@ -296,3 +301,83 @@ cpart2 = Computer(codes2, 5)
 cpart1.run()
 cpart2.run()
 """
+""" Day 6
+with open("input6.txt", 'r') as txt:
+    orbs = [orbit.split(')') for orbit in txt.readlines()]
+    orbs = [(orbit[0].strip(), orbit[1].strip()) for orbit in orbs]
+    bodies = set()
+    for pair in orbs:
+        bodies.add(pair[0])
+        bodies.add(pair[1])
+
+orbits = {}
+map = defaultdict(set)
+
+for pair in orbs:
+    center, orbiter = pair
+    orbits[orbiter] = center
+    map[center].add(orbiter)
+
+
+def orbitcount(leaforbiter):
+    if leaforbiter == 'COM':
+        return 0
+    else:
+        return 1 + orbitcount(orbits[leaforbiter])
+
+
+def pathtocom(body):
+    if body == "COM":
+        return "COM"
+    else:
+        return pathtocom(orbits[body]) + "){}".format(body)
+
+
+san = pathtocom("SAN").split(')')
+me = pathtocom("YOU").split(')')
+
+print(san)
+print(me)
+
+i = 0
+while me[i] == san[i]:
+    i += 1
+i += 1
+print(len(san) - i + len(me) - i)
+"""
+
+with open("input7.txt", 'r') as txt:
+    codes = [int(op) for op in txt.readlines()[0].split(',')]
+
+toycodes = [3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,
+            27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5]
+
+max = 0
+
+for l in list(permutations(range(5, 10))):
+    comp = Computer(copy(toycodes), l[0], 0)
+    comp.run()
+    comp2 = Computer(copy(toycodes), l[1], comp.thrustoutput)
+    comp2.run()
+    comp3 = Computer(copy(toycodes), l[2], comp2.thrustoutput)
+    comp3.run()
+    comp4 = Computer(copy(toycodes), l[3], comp3.thrustoutput)
+    comp4.run()
+    comp5 = Computer(copy(toycodes), l[4], comp4.thrustoutput)
+    comp5.run()
+    while not comp5.finished:
+        comp.nextthrustinput(comp5.thrustoutput)
+        comp.run()
+        comp2.nextthrustinput(comp.thrustoutput)
+        comp2.run()
+        comp3.nextthrustinput(comp2.thrustoutput)
+        comp3.run()
+        comp4.nextthrustinput(comp3.thrustoutput)
+        comp4.run()
+        comp5.nextthrustinput(comp4.thrustoutput)
+        comp5.run()
+
+    if max < comp5.thrustoutput:
+        max = comp5.thrustoutput
+    print('----------------------')
+print(max)
