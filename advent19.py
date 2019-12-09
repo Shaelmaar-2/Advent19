@@ -3,6 +3,8 @@ import re
 from copy import copy
 from collections import defaultdict
 from itertools import permutations
+import numpy as np
+import cv2
 
 from Computer import Computer
 
@@ -345,6 +347,7 @@ while me[i] == san[i]:
 i += 1
 print(len(san) - i + len(me) - i)
 """
+""" Day7 
 
 with open("input7.txt", 'r') as txt:
     codes = [int(op) for op in txt.readlines()[0].split(',')]
@@ -355,15 +358,15 @@ toycodes = [3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,
 max = 0
 
 for l in list(permutations(range(5, 10))):
-    comp = Computer(copy(toycodes), l[0], 0)
+    comp = Computer(copy(codes), l[0], 0)
     comp.run()
-    comp2 = Computer(copy(toycodes), l[1], comp.thrustoutput)
+    comp2 = Computer(copy(codes), l[1], comp.thrustoutput)
     comp2.run()
-    comp3 = Computer(copy(toycodes), l[2], comp2.thrustoutput)
+    comp3 = Computer(copy(codes), l[2], comp2.thrustoutput)
     comp3.run()
-    comp4 = Computer(copy(toycodes), l[3], comp3.thrustoutput)
+    comp4 = Computer(copy(codes), l[3], comp3.thrustoutput)
     comp4.run()
-    comp5 = Computer(copy(toycodes), l[4], comp4.thrustoutput)
+    comp5 = Computer(copy(codes), l[4], comp4.thrustoutput)
     comp5.run()
     while not comp5.finished:
         comp.nextthrustinput(comp5.thrustoutput)
@@ -381,3 +384,34 @@ for l in list(permutations(range(5, 10))):
         max = comp5.thrustoutput
     print('----------------------')
 print(max)
+"""
+
+"""Day 8
+with open('input8.txt', 'r') as txt:
+    layers = np.asarray([int(pixel) for pixel in txt.readline()]).reshape((-1, 150))
+
+layerinfo = []
+for x,layer in enumerate(layers):
+    layerdict = defaultdict(int)
+    for elem in layer:
+        layerdict[elem] += 1
+    layerinfo.append(layerdict)
+
+layerinfo = sorted(layerinfo, key=lambda x: x[0])
+
+print('part 1:', layerinfo[0][1] * layerinfo[0][2])
+
+layers = layers.reshape((-1, 6, 25))
+final = np.zeros((6, 25))
+
+for i in range(len(final)):
+    for j in range(len(final[i])):
+        depth = 0
+        while layers[depth][i][j] == 2 and depth < len(layers):
+            depth += 1
+        final[i][j] = 255 * layers[depth][i][j]
+
+cv2.imshow('final bios', final)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+"""

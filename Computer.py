@@ -21,12 +21,12 @@ class Computer:
         else:
             param1 = dex + 1
 
-        if param2 == 0:
+        if param2 == 0 and not (struct == 3 or struct == 4):
             param2 = self.tape[dex + 2]
         else:
             param2 = dex + 2
 
-        if param3 == 0:
+        if param3 == 0 and not ((struct == 5 or struct == 6) or (struct == 3 or struct == 4)):
             param3 = self.tape[dex + 3]
         else:
             param3 = dex + 3
