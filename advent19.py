@@ -415,3 +415,68 @@ cv2.imshow('final bios', final)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 """
+"""Day 10
+toycodes = [109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99]
+with open('inputs/input9.txt', 'r') as txt:
+    codes = [int(code) for code in txt.readline().strip().split(',')]
+comp = Computer(codes, 1, None)
+comp.run()
+"""
+
+"""Day 10 --Incomplete--
+with open('inputs/input10.txt', 'r') as txt:
+    astroidbelt = [line.strip() for line in txt.readlines()]
+astroids = {}
+for i in range(len(astroidbelt)):
+    for j in range(len(astroidbelt[i])):
+        if astroidbelt[i][j] == "#":
+            astroids[(i, j)] = set()
+mslopes = defaultdict(int)
+maxplace = None
+max
+
+for roid in astroids.keys():
+    for roid2 in astroids.keys():
+        if not roid2 == roid:
+            if (roid2[0] - roid[0]) != 0:
+                m = (roid2[1] - roid[1]) / (roid2[0] - roid[0])
+            else:
+                m = 'inf'
+            xdir = ''
+            ydir = ''
+            if roid[0] <= roid2[0]:
+                xdir = 'r'
+            else:
+                xdir = 'l'
+            if roid[1] <= roid2[1]:
+                ydir = 'u'
+            else:
+                ydir = 'd'
+            if (m, (xdir, ydir)) not in astroids[roid]:
+                astroids[roid].add((m, (xdir, ydir)))
+# 17,14
+"""
+with open('inputs/input11.txt', 'r') as inp:
+    instructions = [int(command) for command in inp.readline().strip().split(',')]
+comp = Computer(instructions, 0, 0)
+hull = defaultdict(int)
+pos = [0, 0]
+dirs = {0: -1, 1: 1, 2: 1, 3: -1}
+dir = 0
+tiles = 0
+while not comp.finished:
+    comp.run()
+    if tuple(pos) not in hull:
+        tiles += 1
+    hull[tuple(pos)] = comp.thrustoutput
+    comp.run()
+    if comp.thrustoutput == 1:
+        dir = (dir + 1) % 4
+    else:
+        dir = (dir - 1) % 4
+    if dir in (1, 3):
+        pos[1] += dirs[dir]
+    else:
+        pos[0] += dirs[dir]
+    comp.nextthrustinput(hull[tuple(pos)])
+print(len(hull))
